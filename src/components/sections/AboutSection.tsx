@@ -1,27 +1,30 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/animations/Reveal";
-import { profile } from "@/data/profile";
 import { useTheme } from "@/context/ThemeContext";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { cn } from "@/lib/utils";
 import { MapPin, Briefcase, Target, Coffee } from "lucide-react";
 
-const stats = [
-  { label: "身份", value: profile.stats.years },
-  { label: "项目数量", value: profile.stats.projects },
-  { label: "GitHub Stars", value: profile.stats.githubStars },
-  { label: "技术文章", value: profile.stats.articles },
-];
-
 export function AboutSection() {
+  const t = useTranslations("about");
+  const { profile } = useLocalizedContent();
   const { recruiterMode } = useTheme();
+
+  const stats = [
+    { label: t("statsRole"), value: profile.stats.years },
+    { label: t("statsProjects"), value: profile.stats.projects },
+    { label: t("statsStars"), value: profile.stats.githubStars },
+    { label: t("statsArticles"), value: profile.stats.articles },
+  ];
 
   return (
     <section id="about" className="relative py-24 md:py-32">
       <div className="section-container">
         <Reveal>
-          <p className="section-label">Level 1 · about.me</p>
-          <h2 className="section-title mt-2 gradient-text">关于我</h2>
+          <p className="section-label">{t("label")}</p>
+          <h2 className="section-title mt-2 gradient-text">{t("title")}</h2>
         </Reveal>
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[280px_1fr]">
@@ -41,7 +44,7 @@ export function AboutSection() {
                     : "border-neon-cyan/20 bg-bg-elevated",
                 )}
               >
-                {profile.name.slice(0, 1)}
+                {profile.displayName.slice(0, 1)}
               </div>
             </div>
           </Reveal>
@@ -96,7 +99,7 @@ export function AboutSection() {
                   )}
                 >
                   <Coffee size={14} className={recruiterMode ? "text-amber-600" : "text-neon-amber"} />
-                  计算机科学与技术 · 本科
+                  {t("educationField")}
                 </li>
               </ul>
             </Reveal>

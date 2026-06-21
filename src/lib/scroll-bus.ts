@@ -1,4 +1,4 @@
-import { levels } from "@/data/profile";
+import { levelRoutes } from "@/data/profile";
 
 export interface ScrollMetrics {
   progress: number;
@@ -34,8 +34,8 @@ function computeMetrics(): ScrollMetrics {
 
   const scrollPos = scrollY + window.innerHeight * 0.4;
   let activeLevel = 0;
-  for (let i = 0; i < levels.length; i++) {
-    const el = document.getElementById(levels[i].id);
+  for (let i = 0; i < levelRoutes.length; i++) {
+    const el = document.getElementById(levelRoutes[i].id);
     if (el && el.offsetTop <= scrollPos) activeLevel = i;
   }
 

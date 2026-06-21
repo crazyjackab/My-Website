@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/animations/Reveal";
-import { profile, social } from "@/data/profile";
+import { email, handle, social } from "@/data/profile";
 import { Button } from "@/components/ui/Button";
 import { fetchContactStatus, submitContactForm, type ContactStatus } from "@/lib/contact-client";
 import { getContactProvider, getContactProviderLabel, validateContactForm } from "@/lib/contact";
@@ -13,6 +14,7 @@ import { AlertCircle, CheckCircle2, Github, Loader2, Mail, Send } from "lucide-r
 type FormStatus = "idle" | "loading" | "success" | "error";
 
 export function ContactSection() {
+  const t = useTranslations("contact");
   const { recruiterMode } = useTheme();
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [honeypot, setHoneypot] = useState("");
@@ -41,7 +43,7 @@ export function ContactSection() {
     if (!validation.success) {
       setFieldErrors(validation.errors ?? {});
       setStatus("error");
-      setErrorMsg("请检查表单填写是否正确");
+      setErrorMsg(t("formError"));
       return;
     }
 
@@ -54,7 +56,7 @@ export function ContactSection() {
       setTimeout(() => setStatus("idle"), 5000);
     } catch (err) {
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "发送失败，请稍后重试");
+      setErrorMsg(err instanceof Error ? err.message : t("sendFailed"));
     }
   };
 
@@ -63,22 +65,24 @@ export function ContactSection() {
     const body = encodeURIComponent(
       `来自: ${formState.name}\n邮箱: ${formState.email}\n\n${formState.message}`,
     );
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   };
 
-  const buttonLabel = {
-    idle: "Send Message",
-    loading: "Sending...",
-    success: "Message Sent ✓",
-    error: "Retry Send",
-  }[status === "loading" ? "loading" : status === "success" ? "success" : status === "error" && errorMsg ? "error" : "idle"];
+  const buttonLabel =
+    status === "loading"
+      ? t("sending")
+      : status === "success"
+        ? "Message Sent ✓"
+        : status === "error" && errorMsg
+          ? "Retry Send"
+          : t("send");
 
   return (
     <section id="contact" className="relative py-24 md:py-32">
       <div className="section-container">
         <Reveal>
-          <p className="section-label">Level 5 · secure.connection</p>
-          <h2 className="section-title mt-2 gradient-text">联系方式</h2>
+          <p className="section-label">{t("label")}</p>
+          <h2 className="section-title mt-2 gradient-text">{t("title")}</h2>
         </Reveal>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -90,7 +94,7 @@ export function ContactSection() {
                 <span className="h-3 w-3 rounded-full bg-green-500/80" />
               </div>
               <p className={cn("font-mono text-sm", recruiterMode ? "text-green-800" : "text-neon-green/80")}>
-                <span className={recruiterMode ? "text-slate-500" : "text-text-muted"}>$</span> ssh contact@{profile.handle}.dev
+                <span className={recruiterMode ? "text-slate-500" : "text-text-muted"}>$</span> ssh contact@{handle}.dev
               </p>
               <p className={cn("mt-1", recruiterMode ? "text-green-700" : "text-neon-green/60")}>&gt; Authenticating...</p>
               <p className={recruiterMode ? "text-green-700" : "text-neon-green/60"}>&gt; Connection established.</p>
@@ -98,7 +102,7 @@ export function ContactSection() {
               <ul className={cn("mt-6 space-y-3", recruiterMode ? "text-slate-600" : "text-text-muted")}>
                 <li className="flex items-center gap-2">
                   <Mail size={14} className={recruiterMode ? "text-blue-600" : "text-neon-cyan"} />
-                  {profile.email}
+                  {email}
                 </li>
                 <li>
                   <a
@@ -108,7 +112,7 @@ export function ContactSection() {
                     className={cn("flex items-center gap-2", recruiterMode ? "hover:text-blue-700" : "hover:text-neon-cyan")}
                   >
                     <Github size={14} />
-                    github.com/{profile.handle}
+                    github.com/{handle}
                   </a>
                 </li>
               </ul>
@@ -117,18 +121,20 @@ export function ContactSection() {
 
           <Reveal delay={200}>
             <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6" noValidate>
-              <h3 className={cn("font-mono text-sm", recruiterMode ? "text-blue-700" : "text-neon-cyan")}>Send Message</h3>
+              <h3 className={cn("font-mono text-sm", recruiterMode ? "text-blue-700" : "text-neon-cyan")}>
+                {t("sendMessage")}
+              </h3>
               <p className={cn("mt-1 text-xs", recruiterMode ? "text-slate-500" : "text-text-muted")}>
                 {provider === "mailto"
-                  ? "将打开你的邮件客户端，直接发送到我的邮箱"
+                  ? t("mailtoHint")
                   : backendReady
-                    ? `通过 ${providerLabel} 直接发送到我的邮箱`
-                    : `${providerLabel} 尚未配置 · 提交可能失败，可先使用邮件客户端`}
+                    ? t("providerHint", { provider: providerLabel })
+                    : t("providerNotReady", { provider: providerLabel })}
               </p>
 
               {contactStatus && !contactStatus.ready && provider !== "mailto" && (
                 <p className={cn("mt-2 rounded border px-3 py-2 font-mono text-[10px] leading-relaxed", recruiterMode ? "border-amber-200 bg-amber-50 text-amber-800" : "border-neon-amber/30 bg-neon-amber/5 text-neon-amber/90")}>
-                  {contactStatus.message || "请在 .env.local 中配置邮件服务后重启 npm run dev"}
+                  {contactStatus.message || t("envHint")}
                 </p>
               )}
 
@@ -147,7 +153,7 @@ export function ContactSection() {
               <div className="mt-6 space-y-4">
                 <div>
                   <label htmlFor="name" className={cn("font-mono text-[10px] tracking-wider uppercase", recruiterMode ? "text-slate-500" : "text-text-muted")}>
-                    Name
+                    {t("name")}
                   </label>
                   <input
                     id="name"
@@ -172,7 +178,7 @@ export function ContactSection() {
 
                 <div>
                   <label htmlFor="email" className={cn("font-mono text-[10px] tracking-wider uppercase", recruiterMode ? "text-slate-500" : "text-text-muted")}>
-                    Email
+                    {t("email")}
                   </label>
                   <input
                     id="email"
@@ -197,7 +203,7 @@ export function ContactSection() {
 
                 <div>
                   <label htmlFor="message" className={cn("font-mono text-[10px] tracking-wider uppercase", recruiterMode ? "text-slate-500" : "text-text-muted")}>
-                    Message
+                    {t("message")}
                   </label>
                   <textarea
                     id="message"
@@ -224,9 +230,7 @@ export function ContactSection() {
               {status === "success" && (
                 <div className={cn("mt-4 flex items-center gap-2 font-mono text-xs", recruiterMode ? "text-green-700" : "text-neon-green")}>
                   <CheckCircle2 size={14} />
-                  {provider === "mailto"
-                    ? "已打开邮件客户端，请确认发送！"
-                    : "消息已发送，我会尽快回复你！"}
+                  {provider === "mailto" ? t("successMailto") : t("successSent")}
                 </div>
               )}
 
@@ -245,7 +249,7 @@ export function ContactSection() {
                         recruiterMode ? "text-blue-700" : "text-neon-cyan",
                       )}
                     >
-                      改用邮件客户端发送 →
+                      {t("useMailClient")}
                     </button>
                   )}
                 </div>
@@ -261,7 +265,7 @@ export function ContactSection() {
                 ) : (
                   <Send size={14} />
                 )}
-                {provider === "mailto" ? "Open Mail Client" : buttonLabel}
+                {provider === "mailto" ? t("openMailClient") : buttonLabel}
               </Button>
 
               {provider !== "mailto" && !backendReady && (
@@ -272,7 +276,7 @@ export function ContactSection() {
                   onClick={handleMailtoFallback}
                 >
                   <Mail size={14} />
-                  使用邮件客户端（无需配置）
+                  {t("useMailNoConfig")}
                 </Button>
               )}
             </form>

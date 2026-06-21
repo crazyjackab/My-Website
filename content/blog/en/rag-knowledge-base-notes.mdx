@@ -1,0 +1,50 @@
+---
+title: "RAG Knowledge Base: From Document Ingestion to Traceable Answers"
+description: "Tech choices, RAG pipeline, and test results from the Cloud Knowledge Base graduation project."
+date: "2026-06-18"
+tags: ["RAG", "Spring Boot", "Milvus", "Graduation Project"]
+published: true
+---
+
+My undergraduate capstone **Cloud Knowledge Base** is an end-to-end RAG Q&A system: users upload documents, the system parses and chunks them, embeds vectors into a store, and answers questions with cited sources.
+
+## Architecture overview
+
+1. **Document parsing** — PDF / Word / Markdown unified parsing and semantic chunking
+2. **Embedding** — Tongyi embeddings written to Milvus
+3. **Retrieval-augmented generation** — Top-K similar chunks + prompt assembly
+4. **Traceable answers** — Responses include referenced source passages
+
+<Callout type="tip">
+  When deleting a document, also remove its vectors in Milvus to avoid "ghost retrieval" — an easy detail to miss in multi-user setups.
+</Callout>
+
+## Backend highlights
+
+- Spring Boot 3 + JWT for multi-user isolation
+- Delete document → delete vectors, keeping the index consistent
+- 28 functional and security tests all passed
+
+## Frontend highlights
+
+- Vue 3 for document management, Q&A history, and resource library modules
+- Bookshelf / notes / media extensions decoupled from the core RAG pipeline
+
+## Lessons learned
+
+### Chunk granularity
+
+Too large: poor retrieval. Too small: fragmented context. We used a hybrid strategy: paragraph boundaries plus a max token limit.
+
+### Citation UI
+
+Users need to know where answers come from. Showing cited snippets alongside the answer noticeably improved trust.
+
+<Callout type="warn">
+  Email without domain verification is fine for testing only — configure SPF / DKIM in production.
+</Callout>
+
+## Further reading
+
+- Project detail: [Cloud Knowledge Base](/en/projects/cloud-knowledge-base)
+- More notes: [Blog list](/en/blog)

@@ -1,9 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/animations/Reveal";
-import { skillCategories, skills, type Skill } from "@/data/skills";
+import { skills, type Skill } from "@/data/skills";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+
+const categories = ["frontend", "backend", "devops", "tools"] as const;
 
 function SkillCard({ skill, recruiterMode }: { skill: Skill; recruiterMode: boolean }) {
   return (
@@ -32,17 +35,17 @@ function SkillCard({ skill, recruiterMode }: { skill: Skill; recruiterMode: bool
 }
 
 export function SkillsSection() {
+  const t = useTranslations("skills");
   const { recruiterMode } = useTheme();
-  const categories = Object.keys(skillCategories) as Array<keyof typeof skillCategories>;
 
   return (
     <section id="skills" className="relative py-24 md:py-32">
       <div className="section-container">
         <Reveal>
-          <p className="section-label">Level 2 · skills.unlocked</p>
-          <h2 className="section-title mt-2 gradient-text">技能树</h2>
+          <p className="section-label">{t("label")}</p>
+          <h2 className="section-title mt-2 gradient-text">{t("title")}</h2>
           <p className={cn("mt-3 max-w-lg font-mono text-sm", recruiterMode ? "text-slate-600" : "text-text-muted")}>
-            滚动解锁技能节点 — 以下为核心技术栈（占位数据，可在 src/data/skills.ts 中修改）
+            {t("subtitle")}
           </p>
         </Reveal>
 
@@ -61,7 +64,7 @@ export function SkillsSection() {
                     )}
                   >
                     <span className={cn("h-px flex-1", recruiterMode ? "bg-violet-200" : "bg-neon-purple/20")} />
-                    {skillCategories[cat]}
+                    {t(`categories.${cat}`)}
                     <span className={cn("h-px flex-1", recruiterMode ? "bg-violet-200" : "bg-neon-purple/20")} />
                   </h3>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

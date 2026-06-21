@@ -1,11 +1,15 @@
 "use client";
 
-import { profile, social } from "@/data/profile";
+import { useTranslations } from "next-intl";
+import { social } from "@/data/profile";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { Github, Mail } from "lucide-react";
 
 export function Footer() {
+  const t = useTranslations("footer");
+  const { profile } = useLocalizedContent();
   const { recruiterMode } = useTheme();
 
   return (
@@ -26,10 +30,10 @@ export function Footer() {
                 recruiterMode ? "text-blue-600" : "text-neon-cyan/60",
               )}
             >
-              Built with Next.js + Tailwind + GSAP
+              {t("builtWith")}
             </p>
             <p className="mt-1 font-mono text-xs text-text-muted">
-              © {new Date().getFullYear()} {profile.name}. All rights reserved.
+              {t("rights", { year: new Date().getFullYear(), name: profile.name })}
             </p>
           </div>
 
@@ -65,8 +69,8 @@ export function Footer() {
 
         {!recruiterMode && (
           <div className="mt-8 rounded border border-white/5 bg-black/30 p-4 font-mono text-[11px] text-neon-green/60">
-            <p>&gt; last_commit: feat: init portfolio v0.1.0</p>
-            <p>&gt; status: SYSTEM ONLINE · uptime 99.9%</p>
+            <p>{t("commit")}</p>
+            <p>{t("status")}</p>
           </div>
         )}
       </div>

@@ -1,0 +1,49 @@
+---
+title: "Hello MDX — 博客系统上线"
+description: "介绍本站 Blog MDX 工作流：如何写文章、发布与扩展。"
+date: "2026-06-20"
+tags: ["Next.js", "MDX", "Blog"]
+published: true
+---
+
+本站博客使用 **MDX** 编写：Markdown 的简洁 + React 组件的灵活。
+
+## 为什么用 MDX？
+
+- 写文章像写 Markdown，上手快
+- 需要时嵌入自定义组件（提示框、图表等）
+- 与 Next.js App Router 配合，构建时静态生成，SEO 友好
+
+<Callout type="tip">
+  新文章放在 `content/blog/` 目录，文件名即 URL slug。例如 `hello-mdx.mdx` → `/blog/hello-mdx`。
+</Callout>
+
+## 发布流程
+
+1. 在 `content/blog/` 新建 `.mdx` 文件
+2. 填写 frontmatter（title、description、date、tags）
+3. 写正文，支持代码块与自定义组件
+4. 本地 `npm run dev` 预览，构建后自动进入 sitemap
+
+```bash
+npm run dev
+# 打开 http://localhost:3000/blog
+```
+
+## Frontmatter 模板
+
+```yaml
+title: "文章标题"
+description: "一句话摘要，用于 SEO 与列表展示"
+date: "2026-06-20"
+tags: ["标签1", "标签2"]
+published: true
+```
+
+<Callout type="info">
+  将 `published` 设为 `false` 可隐藏文章，适合草稿。
+</Callout>
+
+---
+
+下一篇我会写 RAG 知识库项目的技术复盘。欢迎通过 [联系页面](/#contact) 交流想法。

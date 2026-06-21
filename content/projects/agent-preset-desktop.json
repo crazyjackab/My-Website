@@ -1,0 +1,32 @@
+{
+  "slug": "agent-preset-desktop",
+  "tags": ["Electron", "React", "TypeScript", "SQLite", "Fastify"],
+  "links": {},
+  "featured": true,
+  "published": true,
+  "year": 2026,
+  "image": "/projects/agent-preset-desktop.png",
+  "imageFull": "/projects/agent-preset-desktop.png",
+  "zh": {
+    "title": "Agent Preset Desktop",
+    "tagline": "可自定义 Agent 人设的桌面 AI 助手，支持多模型对话与本地数据管理",
+    "description": "基于 Electron + React + TypeScript 的 monorepo 桌面应用。提供 Agent 五层设定编辑器、Prompt 编译、多 LLM 流式对话、SQLite 本地存储，并集成 MCP 工具、长期记忆、微信/QQ IM 桥接等能力。",
+    "highlights": [
+      "Agent 五层人设编辑器与 Prompt 编译",
+      "多 LLM 流式对话与 SQLite 本地存储",
+      "MCP 工具与长期记忆集成",
+      "微信 / QQ IM 桥接能力"
+    ]
+  },
+  "en": {
+    "title": "Agent Preset Desktop",
+    "tagline": "Customizable desktop AI assistant with multi-model chat",
+    "description": "An Electron + React + TypeScript monorepo desktop app with a five-layer agent persona editor, prompt compilation, streaming multi-LLM chat, SQLite storage, MCP tools, long-term memory, and WeChat/QQ IM bridges.",
+    "highlights": [
+      "Five-layer persona editor and prompt compiler",
+      "Streaming multi-LLM chat with SQLite storage",
+      "MCP tools and long-term memory",
+      "WeChat / QQ IM bridge integrations"
+    ]
+  }
+}

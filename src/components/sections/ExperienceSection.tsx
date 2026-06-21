@@ -1,19 +1,22 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/animations/Reveal";
-import { experiences } from "@/data/experience";
 import { useTheme } from "@/context/ThemeContext";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { cn } from "@/lib/utils";
 
 export function ExperienceSection() {
+  const t = useTranslations("experience");
+  const { experiences } = useLocalizedContent();
   const { recruiterMode } = useTheme();
 
   return (
     <section id="experience" className="relative py-24 md:py-32">
       <div className="section-container">
         <Reveal>
-          <p className="section-label">Level 3 · quest.log</p>
-          <h2 className="section-title mt-2 gradient-text">教育背景</h2>
+          <p className="section-label">{t("label")}</p>
+          <h2 className="section-title mt-2 gradient-text">{t("title")}</h2>
         </Reveal>
 
         <div className="relative mt-12">

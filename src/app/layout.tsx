@@ -1,7 +1,5 @@
-import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
-import { profile } from "@/data/profile";
-import { PortfolioShell } from "@/components/PortfolioShell";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,26 +20,19 @@ const orbitron = Orbitron({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: `${profile.name} | ${profile.title}`,
-  description: `${profile.name} 的个人网站 — ${profile.slogan}`,
-  keywords: ["陈鹏", "个人网站", "全栈工程师", "Portfolio", profile.title],
-  openGraph: {
-    title: `${profile.name} | ${profile.title}`,
-    description: profile.slogan,
-    type: "website",
-  },
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
     <html
-      lang="zh-CN"
+      lang={locale === "zh" ? "zh-CN" : "en"}
+      data-theme-year="2026"
       className={`${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable}`}
+      suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>
     </html>

@@ -1,26 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { profile } from "@/data/profile";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
+import { resumeUrl, social } from "@/data/profile";
 import { Button } from "@/components/ui/Button";
 import { useTheme } from "@/context/ThemeContext";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { cn } from "@/lib/utils";
 import { ArrowDown, Download, Github } from "lucide-react";
-import { social } from "@/data/profile";
-
-const bootLines = [
-  "> KERNEL: portfolio-os v0.1.0 booting...",
-  "> INIT: particle_engine ✓",
-  "> INIT: neon_renderer ✓",
-  "> INIT: scroll_narrative ✓",
-  `> WELCOME, ${profile.name.toUpperCase()}`,
-];
 
 export function HeroSection() {
+  const t = useTranslations("hero");
+  const { profile } = useLocalizedContent();
   const { recruiterMode } = useTheme();
   const [bootDone, setBootDone] = useState(false);
   const [visibleLines, setVisibleLines] = useState<string[]>([]);
   const [skipped, setSkipped] = useState(false);
+
+  const bootLines = useMemo(
+    () =>
+      (t.raw("boot") as string[]).map((line) =>
+        line.replace("{name}", profile.displayName.toUpperCase()),
+      ),
+    [t, profile.displayName],
+  );
 
   useEffect(() => {
     if (recruiterMode) {
@@ -47,7 +50,7 @@ export function HeroSection() {
     }, 350);
 
     return () => clearInterval(interval);
-  }, [skipped, recruiterMode]);
+  }, [skipped, recruiterMode, bootLines]);
 
   return (
     <section
@@ -68,7 +71,7 @@ export function HeroSection() {
                 onClick={() => setSkipped(true)}
                 className="text-[10px] text-text-muted hover:text-neon-cyan"
               >
-                [SKIP]
+                {t("skip")}
               </button>
             </div>
             <div className="space-y-1 text-neon-green/80">
@@ -96,7 +99,7 @@ export function HeroSection() {
               !recruiterMode && "glitch-text",
             )}
           >
-            <span className="gradient-text">{profile.name}</span>
+            <span className="gradient-text">{profile.displayName}</span>
           </h1>
 
           <p
@@ -106,7 +109,7 @@ export function HeroSection() {
             )}
           >
             <span className={recruiterMode ? "text-green-700" : "text-neon-green"}>&gt;</span>{" "}
-            {profile.title} · {profile.englishName}
+            {profile.title}
           </p>
 
           <p className={cn("mt-3 max-w-xl font-mono text-sm md:text-base", recruiterMode ? "text-slate-600" : "text-text-muted")}>
@@ -114,10 +117,10 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button href="#projects">View Projects</Button>
-            <Button variant="secondary" href={profile.resumeUrl} download>
+            <Button href="#projects">{t("viewProjects")}</Button>
+            <Button variant="secondary" href={resumeUrl} download>
               <Download size={14} />
-              Resume
+              {t("resume")}
             </Button>
             <Button variant="ghost" href={social.github} target="_blank" rel="noopener noreferrer">
               <Github size={14} />
@@ -128,12 +131,10 @@ export function HeroSection() {
           {!recruiterMode && (
             <div className="cyber-panel mt-12 rounded-lg border border-neon-cyan/15 bg-black/40 p-4 font-mono text-sm backdrop-blur-sm">
               <p className="text-neon-green/70">
-                <span className="text-neon-magenta">$</span> Enter command or scroll to explore
+                <span className="text-neon-magenta">$</span> {t("terminalHint")}
                 <span className="cursor-blink" />
               </p>
-              <p className="mt-1 text-[11px] text-text-muted">
-                try: help · about · projects · contact
-              </p>
+              <p className="mt-1 text-[11px] text-text-muted">{t("terminalTry")}</p>
             </div>
           )}
         </div>
@@ -148,7 +149,7 @@ export function HeroSection() {
         )}
         aria-label="Scroll down"
       >
-        <span>{recruiterMode ? "SCROLL DOWN" : "SCROLL TO INIT"}</span>
+        <span>{recruiterMode ? t("scrollDown") : t("scrollInit")}</span>
         <ArrowDown size={16} className="animate-bounce" />
       </a>
     </section>

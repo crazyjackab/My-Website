@@ -1,11 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useTheme } from "@/context/ThemeContext";
+import { levelRoutes } from "@/data/profile";
 import { useScrollMetrics } from "@/hooks/useMotion";
-import { levels } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 export function ScrollProgress() {
+  const t = useTranslations("levels");
   const { recruiterMode } = useTheme();
   const { progressPct, activeLevel } = useScrollMetrics();
 
@@ -20,7 +22,7 @@ export function ScrollProgress() {
           recruiterMode ? "text-slate-500" : "text-neon-cyan/70",
         )}
       >
-        {levels[activeLevel]?.label} · {Math.round(progressPct)}%
+        {t(levelRoutes[activeLevel]?.labelKey ?? "boot")} · {Math.round(progressPct)}%
       </div>
       <div
         className={cn(
@@ -38,7 +40,7 @@ export function ScrollProgress() {
           style={{ height: `${progressPct}%` }}
         />
       </div>
-      {levels.map((level, i) => (
+      {levelRoutes.map((level, i) => (
         <a
           key={level.id}
           href={`#${level.id}`}
@@ -52,9 +54,9 @@ export function ScrollProgress() {
                 ? "text-slate-400 hover:text-slate-600"
                 : "text-white/30 hover:text-white/60",
           )}
-          title={level.title}
+          title={t(level.titleKey)}
         >
-          {level.label}
+          {t(level.labelKey)}
         </a>
       ))}
     </div>

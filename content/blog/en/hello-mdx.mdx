@@ -1,0 +1,49 @@
+---
+title: "Hello MDX — Blog System Launch"
+description: "How this site's MDX blog workflow works: writing, publishing, and extending."
+date: "2026-06-20"
+tags: ["Next.js", "MDX", "Blog"]
+published: true
+---
+
+This blog is written in **MDX**: the simplicity of Markdown plus the flexibility of React components.
+
+## Why MDX?
+
+- Write like Markdown — easy to pick up
+- Embed custom components when needed (callouts, charts, etc.)
+- Works with the Next.js App Router for static generation and SEO
+
+<Callout type="tip">
+  New posts live in `content/blog/{locale}/`. The filename is the URL slug. For example `hello-mdx.mdx` → `/blog/hello-mdx` (or `/en/blog/hello-mdx` in English).
+</Callout>
+
+## Publishing workflow
+
+1. Create a new `.mdx` file under `content/blog/en/` (or `zh/`)
+2. Fill in frontmatter (`title`, `description`, `date`, `tags`)
+3. Write the body — code blocks and custom components are supported
+4. Preview with `npm run dev`; the build adds posts to the sitemap automatically
+
+```bash
+npm run dev
+# Open http://localhost:3000/en/blog
+```
+
+## Frontmatter template
+
+```yaml
+title: "Post title"
+description: "One-line summary for SEO and list cards"
+date: "2026-06-20"
+tags: ["tag1", "tag2"]
+published: true
+```
+
+<Callout type="info">
+  Set `published` to `false` to hide a draft without deleting it.
+</Callout>
+
+---
+
+Next up: a technical recap of the RAG knowledge base project. Reach out via the [contact section](/en#contact) if you have ideas to share.

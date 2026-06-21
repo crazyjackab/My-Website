@@ -1,5 +1,5 @@
 import emailjs from "@emailjs/browser";
-import { profile } from "@/data/profile";
+import { getLocalizedProfile } from "@/data/i18n/profile";
 import type { ContactFormData } from "./contact";
 import { isEmailJsConfigured } from "./contact";
 
@@ -30,7 +30,7 @@ export async function sendViaEmailJs(data: ContactFormData): Promise<void> {
     from_email: data.email.trim(),
     reply_to: data.email.trim(),
     message: data.message.trim(),
-    to_name: profile.name,
+    to_name: getLocalizedProfile("zh").name,
     user_email: data.email.trim(),
     user_message: data.message.trim(),
   };

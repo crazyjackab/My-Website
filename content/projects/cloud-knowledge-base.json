@@ -1,0 +1,31 @@
+{
+  "slug": "cloud-knowledge-base",
+  "tags": ["Spring Boot", "Vue 3", "MySQL", "Milvus", "RAG", "JWT"],
+  "links": {},
+  "featured": true,
+  "published": true,
+  "year": 2026,
+  "metrics": { "tests": "28/28 pass" },
+  "zh": {
+    "title": "Cloud Knowledge Base",
+    "tagline": "基于 RAG 的云端知识库智能问答，文档入库—向量检索—可追溯回答",
+    "description": "本科毕设 · Spring Boot 3 + Vue 3 全栈实现。支持 PDF、Word、Markdown 等文档解析与语义分块，通义 Embedding 向量化写入 Milvus，提问时 Top-K 检索后由大模型生成带引用来源的答案。含 JWT 多用户隔离、删文档同步清向量、问答历史，并扩展书架/备忘/媒体等资源库模块，28 条功能与安全测试全部通过。",
+    "highlights": [
+      "多格式文档解析与语义分块入库",
+      "Milvus 向量检索 + 大模型可追溯问答",
+      "JWT 多用户隔离与文档向量同步删除",
+      "28 条功能与安全测试全部通过"
+    ]
+  },
+  "en": {
+    "title": "Cloud Knowledge Base",
+    "tagline": "RAG-powered cloud knowledge base with traceable answers",
+    "description": "Undergraduate capstone built with Spring Boot 3 and Vue 3. Parses PDF, Word, and Markdown, chunks content semantically, embeds vectors into Milvus, and generates answers with citations via Top-K retrieval and LLM prompting. Includes JWT multi-user isolation, vector cleanup on document deletion, chat history, and resource modules. All 28 functional and security tests passed.",
+    "highlights": [
+      "Multi-format parsing and semantic chunking pipeline",
+      "Milvus retrieval with traceable LLM answers",
+      "JWT isolation with vector sync on document deletion",
+      "28/28 functional and security tests passed"
+    ]
+  }
+}

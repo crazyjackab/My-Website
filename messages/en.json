@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "siteDescription": "Chen Peng's portfolio — Building thoughtful digital experiences with code"
+  },
+  "common": {
+    "skipToContent": "Skip to main content",
+    "backHome": "Back to home",
+    "backProjects": "Back to projects",
+    "backBlog": "Back to blog",
+    "blog": "Blog",
+    "contactAuthor": "Contact author",
+    "contactMe": "Contact me",
+    "viewDetails": "View details",
+    "readArticle": "Read article",
+    "allPosts": "All posts",
+    "morePosts": "More posts",
+    "otherProjects": "Other projects",
+    "minRead": "min read",
+    "pressEscMatrix": "PRESS ESC TO EXIT MATRIX",
+    "noPublicLinks": "No public links yet",
+    "techStack": "Tech stack",
+    "links": "Links",
+    "overview": "Overview",
+    "highlights": "Highlights",
+    "relatedProjects": "Other projects"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "ariaMain": "Main navigation",
+    "recruiter": "RECRUITER",
+    "geek": "GEEK MODE",
+    "toggleMode": "Switch to {mode}",
+    "geekMode": "Geek Mode",
+    "cleanMode": "Clean Mode"
+  },
+  "levels": {
+    "boot": "BOOT",
+    "bootTitle": "System boot",
+    "about": "L1",
+    "aboutTitle": "About",
+    "skills": "L2",
+    "skillsTitle": "Skills",
+    "experience": "L3",
+    "experienceTitle": "Education",
+    "projects": "L4",
+    "projectsTitle": "Projects",
+    "contact": "L5",
+    "contactTitle": "Contact"
+  },
+  "hero": {
+    "skip": "[SKIP]",
+    "viewProjects": "View Projects",
+    "resume": "Resume",
+    "scrollInit": "SCROLL TO INIT",
+    "scrollDown": "SCROLL DOWN",
+    "terminalHint": "Enter command or scroll to explore",
+    "terminalTry": "try: help · about · projects · contact",
+    "boot": [
+      "> KERNEL: portfolio-os v0.1.0 booting...",
+      "> INIT: particle_engine ✓",
+      "> INIT: neon_renderer ✓",
+      "> INIT: scroll_narrative ✓",
+      "> WELCOME, {name}"
+    ]
+  },
+  "about": {
+    "label": "Level 1 · user.profile",
+    "title": "About Me",
+    "statsRole": "Role",
+    "statsProjects": "Projects",
+    "statsStars": "GitHub Stars",
+    "statsArticles": "Articles",
+    "location": "Location",
+    "status": "Status",
+    "focus": "Focus",
+    "educationField": "Computer Science · Bachelor's"
+  },
+  "skills": {
+    "label": "Level 2 · skill.tree",
+    "title": "Skill Tree",
+    "subtitle": "Stack proficiency by domain — always learning and building.",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps",
+      "tools": "Tools"
+    }
+  },
+  "experience": {
+    "label": "Level 3 · edu.timeline",
+    "title": "Education"
+  },
+  "projects": {
+    "label": "Level 4 · project.hub",
+    "title": "Projects",
+    "viewDetails": "View Details →",
+    "liveDemo": "Live Demo",
+    "lightbox": "Project screenshot preview",
+    "closePreview": "Close preview",
+    "viewImage": "View {title} full image"
+  },
+  "contact": {
+    "label": "Level 5 · contact.sys",
+    "title": "Contact",
+    "sendMessage": "Send Message",
+    "formError": "Please check the form fields",
+    "sendFailed": "Failed to send. Please try again later",
+    "successMailto": "Mail client opened — please confirm send!",
+    "successSent": "Message sent! I'll reply soon.",
+    "mailtoHint": "Opens your mail client to send directly",
+    "providerHint": "Send via {provider} to my inbox",
+    "providerNotReady": "{provider} not configured · use mail client as fallback",
+    "envHint": "Configure mail in .env.local and restart npm run dev",
+    "useMailClient": "Use mail client instead →",
+    "openMailClient": "Open Mail Client",
+    "useMailNoConfig": "Use mail client (no setup)",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending..."
+  },
+  "footer": {
+    "builtWith": "Built with Next.js + Tailwind + GSAP",
+    "rights": "© {year} {name}. All rights reserved.",
+    "commit": "> last_commit: feat: init portfolio v0.1.0",
+    "status": "> status: SYSTEM ONLINE · uptime 99.9%"
+  },
+  "blog": {
+    "listLabel": "Level 5 · blog.sys",
+    "listTitle": "Tech Notes",
+    "listSubtitle": "MDX-powered blog — learning logs, project retrospectives, and dev thoughts.",
+    "empty": "No posts yet. Add .mdx files under content/blog/{locale}/ to publish.",
+    "postLabel": "blog.post",
+    "readArticle": "Read article →"
+  },
+  "notFound": {
+    "code": "ERROR 404",
+    "title": "PAGE NOT FOUND",
+    "tryRoutes": "Try these routes:",
+    "home": "/ — Home",
+    "projects": "/#projects — Projects",
+    "blog": "/blog — Tech Notes",
+    "backHome": "Back to home",
+    "contact": "Contact {name}"
+  },
+  "commandPalette": {
+    "placeholder": "Search commands or pages...",
+    "noResults": "No matching commands",
+    "navigate": "↑↓ select · Enter run",
+    "shortcut": "⌘K / Ctrl+K",
+    "goTo": "Go to {label}",
+    "project": "Project: {title}",
+    "switchRecruiter": "Switch to Recruiter Mode",
+    "switchGeek": "Switch to Geek Mode",
+    "modeHint": "Clean / Geek mode",
+    "matrixEnable": "Enable Matrix Mode",
+    "matrixDisable": "Disable Matrix Mode",
+    "matrixHint": "Konami Code easter egg",
+    "openGithub": "Open GitHub",
+    "sendEmail": "Send Email",
+    "downloadResume": "Download Resume",
+    "openTerminal": "Open Terminal",
+    "terminalHint": "Green button bottom-left",
+    "openBlog": "Open Blog"
+  },
+  "locale": {
+    "zh": "中文",
+    "en": "EN"
+  }
+}

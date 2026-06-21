@@ -1,4 +1,4 @@
-import { profile } from "@/data/profile";
+import { email } from "@/data/profile";
 import type { ContactFormData } from "./contact";
 import { getContactProvider } from "./contact";
 import { sendViaEmailJs } from "./emailjs";
@@ -16,7 +16,7 @@ function submitViaMailto(data: ContactFormData): void {
   const body = encodeURIComponent(
     `来自: ${data.name.trim()}\n邮箱: ${data.email.trim()}\n\n${data.message.trim()}`,
   );
-  window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 export async function fetchContactStatus(): Promise<ContactStatus> {

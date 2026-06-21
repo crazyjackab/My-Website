@@ -1,0 +1,34 @@
+{
+  "slug": "file-manager",
+  "tags": ["Tauri 2", "React", "TypeScript", "Rust"],
+  "links": {
+    "live": "https://github.com/crazyjackab/cp/releases/tag/v0.3.1",
+    "github": "https://github.com/crazyjackab/File-Manager"
+  },
+  "featured": true,
+  "published": true,
+  "year": 2026,
+  "metrics": { "version": "v0.3.1" },
+  "zh": {
+    "title": "File Manager",
+    "tagline": "Windows 桌面私人文件资料库，收纳散落文件并按类浏览",
+    "description": "基于 Tauri 2 + React + Rust 开发的桌面文件整理工具。将桌面、下载文件夹中的文件收纳到统一资料库，按图片、视频、文档等分类浏览，支持缩略图网格、库内搜索与从桌面一键收纳，扫描与统计在 Rust 侧完成，避免大目录卡顿。",
+    "highlights": [
+      "桌面 / 下载文件夹一键收纳",
+      "图片、视频、文档分类浏览与缩略图网格",
+      "Rust 侧扫描统计，大目录不卡顿",
+      "库内搜索与版本发布 v0.3.1"
+    ]
+  },
+  "en": {
+    "title": "File Manager",
+    "tagline": "Desktop library for organizing scattered files on Windows",
+    "description": "A Tauri 2 + React + Rust desktop app that collects files from Desktop and Downloads into a unified library. Browse by images, videos, and documents with thumbnail grids, in-library search, and one-click intake. Scanning and stats run in Rust to keep large folders responsive.",
+    "highlights": [
+      "One-click intake from Desktop and Downloads",
+      "Category browsing with thumbnail grids",
+      "Rust-side scanning for large directories",
+      "In-library search · shipped v0.3.1"
+    ]
+  }
+}

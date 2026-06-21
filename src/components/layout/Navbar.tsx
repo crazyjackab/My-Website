@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { navItems, profile } from "@/data/profile";
+import { useTranslations } from "next-intl";
+import { handle, navRoutes } from "@/data/profile";
+import { Link } from "@/i18n/navigation";
+import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { cn, getInitials } from "@/lib/utils";
 import { useTheme } from "@/context/ThemeContext";
 import { useScrollMetrics } from "@/hooks/useMotion";
@@ -13,6 +17,8 @@ interface NavbarProps {
 }
 
 export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
+  const t = useTranslations("nav");
+  const { profile } = useLocalizedContent();
   const { recruiterMode: isRecruiter } = useTheme();
   const { scrolled } = useScrollMetrics();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -30,7 +36,7 @@ export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
             : "bg-transparent",
       )}
     >
-      <nav className="section-container flex h-16 items-center justify-between">
+      <nav className="section-container flex h-16 items-center justify-between" aria-label={t("ariaMain")}>
         <a
           href="#hero"
           className={cn(
@@ -39,34 +45,56 @@ export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
           )}
         >
           <span className={isRecruiter ? "text-violet-600" : "text-neon-magenta"}>{"{"}</span>
-          <span className="group-hover:animate-pulse">{getInitials(profile.name)}</span>
+          <span className="group-hover:animate-pulse">{getInitials(profile.displayName)}</span>
           <span className={isRecruiter ? "text-violet-600" : "text-neon-magenta"}>{"}"}</span>
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                className={cn(
-                  "group relative px-3 py-2 font-mono text-xs tracking-wider transition-colors",
-                  isRecruiter
-                    ? "text-slate-600 hover:text-blue-700"
-                    : "text-text-muted hover:text-neon-cyan",
+          {navRoutes.map((item) => {
+            const label = t(item.key);
+            const className = cn(
+              "group relative px-3 py-2 font-mono text-xs tracking-wider transition-colors",
+              isRecruiter
+                ? "text-slate-600 hover:text-blue-700"
+                : "text-text-muted hover:text-neon-cyan",
+            );
+
+            return (
+              <li key={item.href}>
+                {item.href.startsWith("/") ? (
+                  <Link href={item.href} className={className}>
+                    <span className={cn("mr-1", isRecruiter ? "text-violet-400" : "text-neon-purple/50")}>
+                      {item.icon}
+                    </span>
+                    {label}
+                    <span
+                      className={cn(
+                        "absolute inset-x-3 -bottom-0.5 h-px scale-x-0 transition-transform group-hover:scale-x-100",
+                        isRecruiter ? "bg-blue-600" : "bg-neon-cyan",
+                      )}
+                    />
+                  </Link>
+                ) : (
+                  <a href={item.href} className={className}>
+                    <span className={cn("mr-1", isRecruiter ? "text-violet-400" : "text-neon-purple/50")}>
+                      {item.icon}
+                    </span>
+                    {label}
+                    <span
+                      className={cn(
+                        "absolute inset-x-3 -bottom-0.5 h-px scale-x-0 transition-transform group-hover:scale-x-100",
+                        isRecruiter ? "bg-blue-600" : "bg-neon-cyan",
+                      )}
+                    />
+                  </a>
                 )}
-              >
-                <span className={cn("mr-1", isRecruiter ? "text-violet-400" : "text-neon-purple/50")}>{item.icon}</span>
-                {item.label}
-                <span className={cn(
-                  "absolute inset-x-3 -bottom-0.5 h-px scale-x-0 transition-transform group-hover:scale-x-100",
-                  isRecruiter ? "bg-blue-600" : "bg-neon-cyan",
-                )} />
-              </a>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LocaleSwitcher className="hidden sm:flex" />
           <button
             type="button"
             onClick={onToggleRecruiter}
@@ -77,7 +105,7 @@ export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
                 : "border-neon-cyan/30 text-neon-cyan/80 hover:border-neon-cyan hover:text-neon-cyan",
             )}
           >
-            {recruiterMode ? "GEEK MODE" : "RECRUITER"}
+            {recruiterMode ? t("geek") : t("recruiter")}
           </button>
 
           <button
@@ -95,23 +123,39 @@ export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
       </nav>
 
       {mobileOpen && (
-        <div className={cn(
-          "border-t backdrop-blur-xl md:hidden",
-          isRecruiter ? "border-slate-200 bg-white/95" : "border-white/10 bg-bg-primary/95",
-        )}>
+        <div
+          className={cn(
+            "border-t backdrop-blur-xl md:hidden",
+            isRecruiter ? "border-slate-200 bg-white/95" : "border-white/10 bg-bg-primary/95",
+          )}
+        >
           <ul className="section-container flex flex-col gap-1 py-4">
-            {navItems.map((item) => (
+            {navRoutes.map((item) => (
               <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-2 font-mono text-sm text-text-muted hover:text-neon-cyan"
-                >
-                  <span className="mr-2 text-neon-purple/50">{item.icon}</span>
-                  {item.label}
-                </a>
+                {item.href.startsWith("/") ? (
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block py-2 font-mono text-sm text-text-muted hover:text-neon-cyan"
+                  >
+                    <span className="mr-2 text-neon-purple/50">{item.icon}</span>
+                    {t(item.key)}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block py-2 font-mono text-sm text-text-muted hover:text-neon-cyan"
+                  >
+                    <span className="mr-2 text-neon-purple/50">{item.icon}</span>
+                    {t(item.key)}
+                  </a>
+                )}
               </li>
             ))}
+            <li className="py-2">
+              <LocaleSwitcher />
+            </li>
             <li>
               <button
                 type="button"
@@ -121,7 +165,9 @@ export function Navbar({ recruiterMode, onToggleRecruiter }: NavbarProps) {
                 }}
                 className="py-2 font-mono text-sm text-neon-cyan"
               >
-                切换 {recruiterMode ? "极客模式" : "简洁模式"}
+                {t("toggleMode", {
+                  mode: recruiterMode ? t("geekMode") : t("cleanMode"),
+                })}
               </button>
             </li>
           </ul>

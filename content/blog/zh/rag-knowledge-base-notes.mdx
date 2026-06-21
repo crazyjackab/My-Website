@@ -1,0 +1,50 @@
+---
+title: "RAG 知识库毕设复盘：从文档入库到可追溯问答"
+description: "Cloud Knowledge Base 毕设的技术选型、RAG 链路与测试结论。"
+date: "2026-06-18"
+tags: ["RAG", "Spring Boot", "Milvus", "毕设"]
+published: true
+---
+
+本科毕设 **Cloud Knowledge Base** 是一个端到端的 RAG 问答系统：用户上传文档，系统解析分块、向量化入库，提问时检索相关片段并由大模型生成带引用的回答。
+
+## 架构概览
+
+1. **文档解析** — PDF / Word / Markdown 统一解析与语义分块
+2. **向量化** — 通义 Embedding 写入 Milvus
+3. **检索增强** — Top-K 相似片段 + Prompt 组装
+4. **可追溯回答** — 答案附带引用来源段落
+
+<Callout type="tip">
+  删除文档时同步清理 Milvus 向量，避免「幽灵检索」——这是多用户场景里很容易忽略的细节。
+</Callout>
+
+## 后端要点
+
+- Spring Boot 3 + JWT 多用户隔离
+- 删文档 → 删向量，保持库内一致性
+- 28 条功能与安全测试全部通过
+
+## 前端要点
+
+- Vue 3 管理文档、问答历史与资源库模块
+- 书架 / 备忘 / 媒体等扩展模块与核心 RAG 链路解耦
+
+## 踩坑记录
+
+### 分块粒度
+
+块太大：检索不准；块太小：上下文碎片化。最终按段落 + 最大 token 限制做混合策略。
+
+### 引用展示
+
+用户需要知道「答案从哪来」。UI 上把引用片段与回答并排展示，可信度明显提升。
+
+<Callout type="warn">
+  没有域名验证的邮件服务只能用于测试环境，生产环境务必配置 SPF / DKIM。
+</Callout>
+
+## 延伸
+
+- 项目详情：[Cloud Knowledge Base](/projects/cloud-knowledge-base)
+- 更多笔记：[博客列表](/blog)

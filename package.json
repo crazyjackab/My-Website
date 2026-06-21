@@ -6,7 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "new:post": "node scripts/new-post.mjs",
+    "new:project": "node scripts/new-project.mjs && node scripts/sync-projects.mjs",
+    "sync:projects": "node scripts/sync-projects.mjs",
+    "drafts": "node scripts/list-drafts.mjs",
+    "prebuild": "node scripts/sync-projects.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -14,10 +19,13 @@
     "@react-three/fiber": "^9.6.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
+    "gray-matter": "^4.0.3",
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
     "lucide-react": "^0.475.0",
     "next": "^15.2.0",
+    "next-intl": "^4.13.0",
+    "next-mdx-remote": "^6.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^6.14.0",

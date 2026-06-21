@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { profile } from "@/data/profile";
-import { projects } from "@/data/projects";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { email, handle } from "@/data/profile";
+import { useRouter } from "@/i18n/navigation";
+import { useLocalizedContent } from "@/hooks/useLocalizedContent";
 import { scrollToSection } from "@/lib/smooth-scroll";
+import { APP_EVENTS, dispatchAppEvent } from "@/lib/app-events";
 import { Terminal, X } from "lucide-react";
 
 interface TerminalLine {
@@ -11,33 +13,34 @@ interface TerminalLine {
   text: string;
 }
 
-const COMMANDS: Record<string, string | (() => string)> = {
-  help: `Available commands:
+export function TerminalWidget() {
+  const { profile, projects } = useLocalizedContent();
+  const router = useRouter();
+
+  const commands = useMemo<Record<string, string | (() => string)>>(() => ({
+    help: `Available commands:
   help       — Show this message
   whoami     — Display identity
   about      — About me
   skills     — List skills
   projects   — List projects
+  blog       — Open blog
   contact    — Contact info
   clear      — Clear terminal
+  matrix     — Matrix mode (easter egg)
+  palette    — Open command palette (Cmd+K)
+  mode       — Switch display mode
   sudo       — Try it ;)`,
 
-  whoami: `${profile.name} — ${profile.title}\n${profile.slogan}`,
+    whoami: `${profile.displayName} — ${profile.title}\n${profile.slogan}`,
+    about: profile.bio.join("\n\n"),
+    skills: "React · TypeScript · Next.js · Node.js · Java · Python · Docker · Git\n(see #skills section for full list)",
+    projects: projects.map((p) => `→ ${p.title} — ${p.tagline}`).join("\n"),
+    contact: `Email: ${email}\nGitHub: github.com/${handle}\nBlog: /blog`,
+    ls: "about/  skills/  experience/  projects/  blog/  contact/",
+    "cat about.txt": profile.bio[0],
+  }), [profile, projects]);
 
-  about: profile.bio.join("\n\n"),
-
-  skills: "React · TypeScript · Next.js · Node.js · Java · Python · Docker · Git\n(see #skills section for full list)",
-
-  projects: projects.map((p) => `→ ${p.title} — ${p.tagline}`).join("\n"),
-
-  contact: `Email: ${profile.email}\nGitHub: github.com/${profile.handle}`,
-
-  ls: "about/  skills/  experience/  projects/  contact/",
-
-  "cat about.txt": profile.bio[0],
-};
-
-export function TerminalWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<TerminalLine[]>([
@@ -90,15 +93,47 @@ export function TerminalWidget() {
         setHistory((h) => [...h, { type: "output", text: "→ Navigating to #contact" }]);
         return;
       }
+      if (cmd === "blog" || cmd === "cd blog") {
+        router.push("/blog");
+        setHistory((h) => [...h, { type: "output", text: "→ Navigating to /blog" }]);
+        return;
+      }
       if (cmd === "sudo hire-me" || cmd === "sudo hire me") {
         setHistory((h) => [
           ...h,
-          { type: "output", text: "✓ Permission granted.\n→ Let's connect! Scroll to #contact or email: " + profile.email },
+          { type: "output", text: "✓ Permission granted.\n→ Let's connect! Scroll to #contact or email: " + email },
+        ]);
+        return;
+      }
+      if (cmd === "matrix") {
+        dispatchAppEvent(APP_EVENTS.TOGGLE_MATRIX);
+        setHistory((h) => [...h, { type: "output", text: "→ Matrix mode toggled. Press Esc to exit." }]);
+        return;
+      }
+      if (cmd === "palette" || cmd === "cmdk" || cmd === "command") {
+        dispatchAppEvent(APP_EVENTS.OPEN_COMMAND_PALETTE);
+        setHistory((h) => [...h, { type: "output", text: "→ Opening command palette..." }]);
+        return;
+      }
+      if (cmd === "mode recruiter" || cmd === "recruiter") {
+        dispatchAppEvent(APP_EVENTS.TOGGLE_RECRUITER);
+        setHistory((h) => [...h, { type: "output", text: "→ Switching display mode..." }]);
+        return;
+      }
+      if (cmd === "mode geek" || cmd === "geek") {
+        dispatchAppEvent(APP_EVENTS.TOGGLE_RECRUITER);
+        setHistory((h) => [...h, { type: "output", text: "→ Switching display mode..." }]);
+        return;
+      }
+      if (cmd === "sudo rm -rf /" || cmd === "sudo rm -rf") {
+        setHistory((h) => [
+          ...h,
+          { type: "output", text: "⚠ Nice try. This portfolio is immutable.\n→ Try: sudo hire-me" },
         ]);
         return;
       }
 
-      const handler = COMMANDS[cmd];
+      const handler = commands[cmd];
       if (handler) {
         const output = typeof handler === "function" ? handler() : handler;
         setHistory((h) => [...h, { type: "output", text: output }]);
@@ -109,7 +144,7 @@ export function TerminalWidget() {
         ]);
       }
     },
-    [],
+    [commands],
   );
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -163,7 +198,7 @@ export function TerminalWidget() {
                   <span className="h-3 w-3 rounded-full bg-green-500/80" />
                 </div>
                 <span className="font-mono text-xs text-text-muted">
-                  {profile.handle}@portfolio ~ terminal
+                  {handle}@portfolio ~ terminal
                 </span>
               </div>
               <button

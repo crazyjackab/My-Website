@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "siteDescription": "陈鹏的个人网站 — 用代码构建有温度的数字体验"
+  },
+  "common": {
+    "skipToContent": "跳到主要内容",
+    "backHome": "返回首页",
+    "backProjects": "返回项目列表",
+    "backBlog": "返回博客列表",
+    "blog": "Blog",
+    "contactAuthor": "联系作者",
+    "contactMe": "联系我",
+    "viewDetails": "查看详情",
+    "readArticle": "阅读全文",
+    "allPosts": "全部文章",
+    "morePosts": "更多文章",
+    "otherProjects": "其他项目",
+    "minRead": "分钟阅读",
+    "pressEscMatrix": "按 ESC 退出 MATRIX",
+    "noPublicLinks": "暂无公开链接",
+    "techStack": "技术栈",
+    "links": "链接",
+    "overview": "项目概述",
+    "highlights": "核心亮点",
+    "relatedProjects": "其他项目"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "ariaMain": "主导航",
+    "recruiter": "RECRUITER",
+    "geek": "GEEK MODE",
+    "toggleMode": "切换 {mode}",
+    "geekMode": "极客模式",
+    "cleanMode": "简洁模式"
+  },
+  "levels": {
+    "boot": "BOOT",
+    "bootTitle": "系统启动",
+    "about": "L1",
+    "aboutTitle": "关于我",
+    "skills": "L2",
+    "skillsTitle": "技能树",
+    "experience": "L3",
+    "experienceTitle": "教育",
+    "projects": "L4",
+    "projectsTitle": "项目",
+    "contact": "L5",
+    "contactTitle": "联系"
+  },
+  "hero": {
+    "skip": "[SKIP]",
+    "viewProjects": "查看项目",
+    "resume": "下载简历",
+    "scrollInit": "SCROLL TO INIT",
+    "scrollDown": "SCROLL DOWN",
+    "terminalHint": "输入命令或向下滚动探索",
+    "terminalTry": "试试: help · about · projects · contact",
+    "boot": [
+      "> KERNEL: portfolio-os v0.1.0 booting...",
+      "> INIT: particle_engine ✓",
+      "> INIT: neon_renderer ✓",
+      "> INIT: scroll_narrative ✓",
+      "> WELCOME, {name}"
+    ]
+  },
+  "about": {
+    "label": "Level 1 · user.profile",
+    "title": "关于我",
+    "statsRole": "身份",
+    "statsProjects": "项目数量",
+    "statsStars": "GitHub Stars",
+    "statsArticles": "技术文章",
+    "location": "所在地",
+    "status": "状态",
+    "focus": "专注方向",
+    "educationField": "计算机科学与技术 · 本科"
+  },
+  "skills": {
+    "label": "Level 2 · skill.tree",
+    "title": "技能树",
+    "subtitle": "按领域分类的技术栈与熟练度 — 持续学习与实践中。",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps",
+      "tools": "Tools"
+    }
+  },
+  "experience": {
+    "label": "Level 3 · edu.timeline",
+    "title": "教育经历"
+  },
+  "projects": {
+    "label": "Level 4 · project.hub",
+    "title": "项目展示",
+    "viewDetails": "View Details →",
+    "liveDemo": "Live Demo",
+    "lightbox": "项目截图预览",
+    "closePreview": "关闭预览",
+    "viewImage": "查看 {title} 大图"
+  },
+  "contact": {
+    "label": "Level 5 · contact.sys",
+    "title": "联系我",
+    "sendMessage": "发送消息",
+    "formError": "请检查表单填写是否正确",
+    "sendFailed": "发送失败，请稍后重试",
+    "successMailto": "已打开邮件客户端，请确认发送！",
+    "successSent": "消息已发送，我会尽快回复你！",
+    "mailtoHint": "将打开你的邮件客户端，直接发送到我的邮箱",
+    "providerHint": "通过 {provider} 直接发送到你的邮箱",
+    "providerNotReady": "{provider} 尚未配置 · 提交可能失败，可先使用邮件客户端",
+    "envHint": "请在 .env.local 中配置邮件服务后重启 npm run dev",
+    "useMailClient": "改用邮件客户端发送 →",
+    "openMailClient": "Open Mail Client",
+    "useMailNoConfig": "使用邮件客户端（无需配置）",
+    "name": "姓名",
+    "email": "邮箱",
+    "message": "消息",
+    "send": "发送消息",
+    "sending": "发送中..."
+  },
+  "footer": {
+    "builtWith": "Built with Next.js + Tailwind + GSAP",
+    "rights": "© {year} {name}. All rights reserved.",
+    "commit": "> last_commit: feat: init portfolio v0.1.0",
+    "status": "> status: SYSTEM ONLINE · uptime 99.9%"
+  },
+  "blog": {
+    "listLabel": "Level 5 · blog.sys",
+    "listTitle": "技术笔记",
+    "listSubtitle": "MDX 驱动的博客 — 记录学习、项目复盘与开发思考。",
+    "empty": "暂无文章，在 content/blog/ 添加 .mdx 文件即可发布。",
+    "postLabel": "blog.post",
+    "readArticle": "Read article →"
+  },
+  "notFound": {
+    "code": "ERROR 404",
+    "title": "PAGE NOT FOUND",
+    "tryRoutes": "Try these routes:",
+    "home": "/ — Home",
+    "projects": "/#projects — Projects",
+    "blog": "/blog — 技术笔记",
+    "backHome": "返回首页",
+    "contact": "联系 {name}"
+  },
+  "commandPalette": {
+    "placeholder": "搜索命令或页面...",
+    "noResults": "无匹配命令",
+    "navigate": "↑↓ 选择 · Enter 执行",
+    "shortcut": "⌘K / Ctrl+K",
+    "goTo": "Go to {label}",
+    "project": "Project: {title}",
+    "switchRecruiter": "Switch to Recruiter Mode",
+    "switchGeek": "Switch to Geek Mode",
+    "modeHint": "简洁 / 极客模式",
+    "matrixEnable": "Enable Matrix Mode",
+    "matrixDisable": "Disable Matrix Mode",
+    "matrixHint": "Konami Code 彩蛋",
+    "openGithub": "Open GitHub",
+    "sendEmail": "Send Email",
+    "downloadResume": "Download Resume",
+    "openTerminal": "Open Terminal",
+    "terminalHint": "左下角绿色按钮",
+    "openBlog": "Open Blog"
+  },
+  "locale": {
+    "zh": "中文",
+    "en": "EN"
+  }
+}

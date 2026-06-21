@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Lenis from "lenis";
@@ -10,7 +11,12 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { ThemeContext } from "@/context/ThemeContext";
+import { useKonamiCode } from "@/hooks/useKonamiCode";
 import { initScrollBus, notifyScroll } from "@/lib/scroll-bus";
+import {
+  APP_EVENTS,
+  subscribeAppEvent,
+} from "@/lib/app-events";
 import {
   getScrollY,
   initHashNavigation,
@@ -60,8 +66,23 @@ const TerminalWidget = dynamic(
   { ssr: false },
 );
 
+const CommandPalette = dynamic(
+  () =>
+    import("@/components/ui/CommandPalette").then((m) => m.CommandPalette),
+  { ssr: false },
+);
+
+const MatrixOverlay = dynamic(
+  () =>
+    import("@/components/effects/MatrixOverlay").then((m) => m.MatrixOverlay),
+  { ssr: false },
+);
+
 export function PortfolioShell() {
+  const t = useTranslations("common");
   const [recruiterMode, setRecruiterMode] = useState(false);
+  const [matrixMode, setMatrixMode] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -132,6 +153,7 @@ export function PortfolioShell() {
     const apply = () => {
       setRecruiterMode(next);
       setRecruiterModeClasses(next);
+      if (next) setMatrixMode(false);
     };
 
     if (supportsViewTransition()) {
@@ -151,6 +173,72 @@ export function PortfolioShell() {
     });
   }, [recruiterMode]);
 
+  const handleToggleMatrix = useCallback(() => {
+    if (recruiterMode) return;
+    setMatrixMode((v) => !v);
+  }, [recruiterMode]);
+
+  const handleKonami = useCallback(() => {
+    if (recruiterMode) return;
+    setMatrixMode(true);
+  }, [recruiterMode]);
+
+  useKonamiCode(handleKonami);
+
+  useEffect(() => {
+    const unsubMatrix = subscribeAppEvent(APP_EVENTS.TOGGLE_MATRIX, handleToggleMatrix);
+    const unsubRecruiter = subscribeAppEvent(APP_EVENTS.TOGGLE_RECRUITER, handleToggleRecruiter);
+    const unsubPalette = subscribeAppEvent(APP_EVENTS.OPEN_COMMAND_PALETTE, () =>
+      setCommandOpen(true),
+    );
+
+    return () => {
+      unsubMatrix();
+      unsubRecruiter();
+      unsubPalette();
+    };
+  }, [handleToggleMatrix, handleToggleRecruiter]);
+
+  useEffect(() => {
+    document.body.classList.toggle("matrix-mode", matrixMode && !recruiterMode);
+    return () => document.body.classList.remove("matrix-mode");
+  }, [matrixMode, recruiterMode]);
+
+  useEffect(() => {
+    if (!matrixMode || recruiterMode) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (commandOpen) return;
+      if (document.querySelector("[role='dialog'][aria-modal='true']")) return;
+
+      setMatrixMode(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [matrixMode, recruiterMode, commandOpen]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== "k") return;
+
+      const target = e.target as HTMLElement | null;
+      const isEditable =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+
+      if (isEditable && !commandOpen) return;
+
+      e.preventDefault();
+      setCommandOpen((open) => !open);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [commandOpen]);
+
   return (
     <ThemeContext.Provider value={{ recruiterMode }}>
       <div
@@ -163,10 +251,27 @@ export function PortfolioShell() {
       />
 
       <div className="scanline-overlay scan-sweep grain-overlay" aria-hidden="true" />
+      {!recruiterMode && <div className="aurora-bg pointer-events-none fixed inset-0 z-0" aria-hidden="true" />}
+      <MatrixOverlay active={matrixMode && !recruiterMode} />
+      {matrixMode && !recruiterMode && (
+        <p
+          className="pointer-events-none fixed bottom-6 left-1/2 z-[9998] -translate-x-1/2 font-mono text-[10px] tracking-widest text-[#39ff14]/80"
+          aria-hidden="true"
+        >
+          {t("pressEscMatrix")}
+        </p>
+      )}
       <ParticleBackground active={!recruiterMode} />
       <ScrollProgress />
       <Navbar recruiterMode={recruiterMode} onToggleRecruiter={handleToggleRecruiter} />
-      <main className="relative z-10">
+      <CommandPalette
+        open={commandOpen}
+        onClose={() => setCommandOpen(false)}
+        onToggleRecruiter={handleToggleRecruiter}
+        onToggleMatrix={handleToggleMatrix}
+        matrixMode={matrixMode}
+      />
+      <main id="main-content" className="relative z-10">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
